@@ -1,5 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { StyleSheet} from 'react-native';
+
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
@@ -35,3 +37,12 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center'
+  }
+})
