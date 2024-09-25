@@ -8,7 +8,7 @@ export default function HomeScreen() {
       <Text className='text-3xl font-pblack'>
         Heba's New App!
       </Text>
-      <Link href='/profile' style={{color: 'blue'}}>Profile</Link>
+      <Link href='/home' style={{color: 'blue'}}>Home</Link>
     </View>
     );
 }
