@@ -6,9 +6,12 @@ import { images } from '@/constants'
 import FormField from '@/components/FormField'
 import CustomButton from '@/components/CustomButton'
 import { Link, router } from 'expo-router'
-import { signIn } from '@/lib/appwrite'
+import { getCurrentUser, signIn } from '@/lib/appwrite'
+import { useGlobalContext } from '@/context/GlobalProvider'
 
 const SignIn = () => {
+
+  const {setUser, setIsLoggedIn} = useGlobalContext()
 
   const [form, setform] = useState({
     email: '',
@@ -28,6 +31,11 @@ const SignIn = () => {
 
     try {
       await signIn(form.email, form.password)
+
+      const result = await getCurrentUser()
+      
+      setUser(result)
+      setIsLoggedIn(true)
       
       router.replace('/home')
     } catch (error) {

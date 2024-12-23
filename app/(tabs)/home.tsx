@@ -9,9 +9,11 @@ import Trending from '@/components/Trending'
 import EmptyState from '@/components/EmptyState'
 import VideoCard from '@/components/VideoCard'
 import { getAllPosts, getLatestPosts } from '@/lib/appwrite'
+import { useGlobalContext } from '@/context/GlobalProvider'
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false)
+  const {user, setUser, setIsLoggedIn} = useGlobalContext()
 
   const { data: posts, refetch, isLoading } = useAppwrite(getAllPosts)
   const { data: latestPosts } = useAppwrite(getLatestPosts)
@@ -39,7 +41,7 @@ const Home = () => {
                   Welcome Back
                 </Text>
                 <Text className='text-2xl font-psemibold text-white'>
-                  User
+                  {user?.username}
                 </Text>
               </View>
               <View className='mt-1.5'>
