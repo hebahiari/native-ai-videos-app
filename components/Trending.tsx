@@ -1,4 +1,5 @@
 import { icons } from '@/constants'
+import { ResizeMode, Video } from 'expo-av'
 import { useState } from 'react'
 import { View, Text, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native'
 import * as Animatable from 'react-native-animatable'
@@ -26,10 +27,22 @@ const TrendingItem = ({ activeItem, item }) => {
 
     return (
         <Animatable.View
-            className='mx-5'
+            className='mx-3'
             animation={activeItem === item.$id ? zoomIn : zoomOut}
             duration={500}>
-            {play ? <Text className='text-white'>Playing...</Text> :
+            {play ? <Video 
+            source={{uri: 'https://www.w3schools.com/html/mov_bbb.mp4'}}
+            // source={{uri: item.video}}
+            className='w-52 h-72 rounded-[35px] mt-3 bg-white/10'
+            resizeMode={ResizeMode.CONTAIN}
+            useNativeControls
+            shouldPlay
+            onPlaybackStatusUpdate={(status) => {
+                if(status.didJustFinish) {
+                    setPlay(false)
+                }
+            }}
+            /> :
                 <TouchableOpacity
                     className='relative justify-center items-center'
                     activeOpacity={0.7}
