@@ -1,27 +1,31 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { icons } from '@/constants'
+import { router, usePathname } from 'expo-router'
 
-const SearchInput = ({ title, otherStyles, handleChangeText, keyboardType, value, placeholder, ...props }) => {
+const SearchInput = ({initialQuery}) => {
 
-    const [showPassword, setshowPassword] = useState(false)
+    const pathname = usePathname()
+    const [query, setQuery] = useState(initialQuery || '')
 
     return (
         <View className='w-full h-16 px-4 bg-black-100 border-2 rounded-2xl  border-black-200 focus:border-secondary items-center flex-row space-x-4'>
             <TextInput
                 className='text-base mt-0.5  text-white flex-1 font-pregular'
-                value={value}
-                placeholder={placeholder}
-                placeholderTextColor='#7b7b8b'
-                onChangeText={handleChangeText}
-                secureTextEntry={title === 'Password' && !showPassword}
+                value={query}
+                placeholder='Search videos...'
+                placeholderTextColor='#CDCDE0'
+                onChangeText={(e) => setQuery(e)}
             />
-            {title === 'Password' && (
-                <TouchableOpacity onPress={() => setshowPassword(!showPassword)}>
-                    <Image source={!showPassword ? icons.eye : icons.eyeHide} className='2-6 h-6' resizeMode='contain' />
-                </TouchableOpacity>
-            )}
-            <TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    if(!query) {
+                        return Alert.alert('Missing Query', 'Please insert a search prompt')
+                    }
+
+                    if(pathname.startsWith('/search')) router.setParams({query})
+                    else router.push(`/search/${query}`)
+                }}>
                 <Image
                     source={icons.search}
                     className='w-5 h-5'
